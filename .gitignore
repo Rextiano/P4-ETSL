@@ -1,0 +1,9 @@
+# .NET stuff
+bin/
+obj/
+
+# ANTLR temp folder
+Generated/
+
+# VS Code stuff
+.vscode/
