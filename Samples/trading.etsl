@@ -1,0 +1,147 @@
+// ==========================================
+// ENERGY TRADING SURVEILLANCE EXAMPLE
+// ==========================================
+
+// Market data (would normally come from external data source)
+float currentPrice = 45.5;
+float dayAheadPrice = 42.0;
+int windForecast = 850;
+int actualWind = 720;
+int demandForecast = 1200;
+int actualDemand = 1350;
+bool marketOpen = true;
+
+// Thresholds for monitoring
+float priceThreshold = 5.0;
+int windDeviationThreshold = 100;
+int demandDeviationThreshold = 100;
+
+// Helper function to calculate price spread
+function calculateSpread(float current, float dayAhead) {
+    return current - dayAhead;
+}
+
+// Helper function to check deviation
+function checkDeviation(int forecast, int actual, int threshold) {
+    int diff = 0;
+    if (actual > forecast) then {
+        diff = actual - forecast;
+    }
+    if (forecast > actual) then {
+        diff = forecast - actual;
+    }
+    return diff > threshold;
+}
+
+// Helper to determine market condition
+function getMarketCondition(float spread) {
+    if (spread > 10.0) then {
+        return "High volatility - potential profit opportunity";
+    }
+    if (spread > 5.0) then {
+        return "Moderate spread - monitor closely";
+    }
+    if (spread < 0) then {
+        return "Negative spread - check market conditions";
+    }
+    return "Normal market conditions";
+}
+
+// ==========================================
+// MONITORING OUTPUT
+// ==========================================
+
+// Calculate market indicators
+float spread = calculateSpread(currentPrice, dayAheadPrice);
+bool windDeviating = checkDeviation(windForecast, actualWind, windDeviationThreshold);
+bool demandDeviating = checkDeviation(demandForecast, actualDemand, demandDeviationThreshold);
+
+// Output monitoring report
+log "=== ENERGY MARKET SURVEILLANCE REPORT ===";
+log "Current Price: " + currentPrice;
+log "Day-Ahead Price: " + dayAheadPrice;
+log "Price Spread: " + spread;
+
+// Market condition based on spread
+string marketCondition = getMarketCondition(spread);
+log "Market Condition: " + marketCondition;
+
+// Wind production analysis
+log "--- Wind Production ---";
+log "Wind Forecast: " + windForecast + " MW";
+log "Actual Wind: " + actualWind + " MW";
+int windDiff = 0;
+if (actualWind > windForecast) then {
+    windDiff = actualWind - windForecast;
+}
+if (windForecast > actualWind) then {
+    windDiff = windForecast - actualWind;
+}
+log "Wind Deviation: " + windDiff + " MW";
+
+if (windDeviating) then {
+    log "WARNING: Significant wind deviation detected";
+}
+
+// Demand analysis
+log "--- Demand Analysis ---";
+log "Demand Forecast: " + demandForecast + " MW";
+log "Actual Demand: " + actualDemand + " MW";
+int demandDiff = 0;
+if (actualDemand > demandForecast) then {
+    demandDiff = actualDemand - demandForecast;
+}
+if (demandForecast > actualDemand) then {
+    demandDiff = demandForecast - actualDemand;
+}
+log "Demand Deviation: " + demandDiff + " MW";
+
+if (demandDeviating) then {
+    log "WARNING: Significant demand deviation detected";
+}
+
+// Trading signal generation
+log "--- Trading Signals ---";
+int signalCount = 0;
+
+if (spread > priceThreshold) then {
+    log "SIGNAL: Price spread above threshold - consider selling";
+    signalCount = signalCount + 1;
+}
+
+if (windDeviating) then {
+    log "SIGNAL: Wind deviation - potential imbalance opportunity";
+    signalCount = signalCount + 1;
+}
+
+if (demandDeviating) then {
+    log "SIGNAL: Demand deviation - adjust position";
+    signalCount = signalCount + 1;
+}
+
+if (signalCount == 0) then {
+    log "No trading signals - maintain current position";
+}
+if (signalCount > 0) then {
+    log "Total active signals: " + signalCount;
+}
+
+// Strategy backtesting example
+log "--- Strategy Backtesting ---";
+
+function simpleStrategy(float price, float baseline) {
+    if (price > baseline) then {
+        return "SELL";
+    }
+    return "BUY";
+}
+
+string action1 = simpleStrategy(45.5, 42.0);
+string action2 = simpleStrategy(38.0, 42.0);
+string action3 = simpleStrategy(42.0, 42.0);
+
+log "Strategy test at 45.5 (baseline 42.0): " + action1;
+log "Strategy test at 38.0 (baseline 42.0): " + action2;
+log "Strategy test at 42.0 (baseline 42.0): " + action3;
+
+log "=== END OF REPORT ===";
