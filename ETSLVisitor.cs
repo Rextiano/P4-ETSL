@@ -92,11 +92,54 @@ public interface IETSLVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitBlock([NotNull] ETSLParser.BlockContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ETSLParser.action"/>.
+	/// Visit a parse tree produced by the <c>BlockAction</c>
+	/// labeled alternative in <see cref="ETSLParser.action"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitAction([NotNull] ETSLParser.ActionContext context);
+	Result VisitBlockAction([NotNull] ETSLParser.BlockActionContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>VarDeclAction</c>
+	/// labeled alternative in <see cref="ETSLParser.action"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitVarDeclAction([NotNull] ETSLParser.VarDeclActionContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>LogAction</c>
+	/// labeled alternative in <see cref="ETSLParser.action"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLogAction([NotNull] ETSLParser.LogActionContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>IfAction</c>
+	/// labeled alternative in <see cref="ETSLParser.action"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIfAction([NotNull] ETSLParser.IfActionContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>ReturnAction</c>
+	/// labeled alternative in <see cref="ETSLParser.action"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitReturnAction([NotNull] ETSLParser.ReturnActionContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>ExprAction</c>
+	/// labeled alternative in <see cref="ETSLParser.action"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitExprAction([NotNull] ETSLParser.ExprActionContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>SkipAction</c>
+	/// labeled alternative in <see cref="ETSLParser.action"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitSkipAction([NotNull] ETSLParser.SkipActionContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>StringExpr</c>
 	/// labeled alternative in <see cref="ETSLParser.expression"/>.
@@ -167,6 +210,13 @@ public interface IETSLVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitBooleanExpr([NotNull] ETSLParser.BooleanExprContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>AssignExpr</c>
+	/// labeled alternative in <see cref="ETSLParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAssignExpr([NotNull] ETSLParser.AssignExprContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ETSLParser.argList"/>.
 	/// </summary>

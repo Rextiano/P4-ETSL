@@ -1,100 +1,138 @@
-log "--- STARTING ROBUST UNIT TESTS ---";
+log "--- STARTING ETSL IMMUTABLE TEST SUITE ---";
 
 // ==========================================
-// 1-4. BASIS MATEMATIK & GLOBAL SCOPE
+// TEST FRAMEWORK
 // ==========================================
-int a = 35;
-int b = 30;
-if (a + b == 65) then 
-    log "SUCCESS: 1. Addition and Global Scoping";
+int passed = 0;
+int failed = 0;
 
-if (a - b == 5) then 
-    log "SUCCESS: 2. Subtraction";
-
-int mathResult = (10 + 2) * 3;
-if (mathResult == 36) then 
-    log "SUCCESS: 3. Multiplication and Parentheses Precedence";
-
-int div1 = 100;
-int div2 = 4;
-if (div1 / div2 == 25) then 
-    log "SUCCESS: 4. Division";
-
-// ==========================================
-// 5-6. FUNKTIONER & PARAMETRE
-// ==========================================
-function checkParams(int x, int y) {
-    if (x * y == 200) then 
-        log "SUCCESS: 5. Function Dispatch and Parameter Mapping";
+function assertEqual(int actual, int expected, string name) {
+if (actual == expected) then {
+log "PASS: " + name;
+passed = passed + 1;
 }
-checkParams(20, 10);
-
-int scopeVar = 1;
-function testScope() {
-    int scopeVar = 99; 
+if (actual != expected) then {
+log "FAIL: " + name;
+log "Expected: " + expected;
+log "Got: " + actual;
+failed = failed + 1;
 }
-testScope();
-if (scopeVar == 1) then 
-    log "SUCCESS: 6. Local Scope Isolation (Shadowing)";
+}
+
+function assertTrue(bool cond, string name) {
+if (cond) then {
+log "PASS: " + name;
+passed = passed + 1;
+}
+if (cond == false) then {
+log "FAIL: " + name;
+failed = failed + 1;
+}
+}
 
 // ==========================================
-// 7-8. OPERATORER & STRINGS
+// 1. BASIC MATH
 // ==========================================
-int v = 10;
-if (v > 5) then
-    if (v < 15) then
-        if (v >= 10) then
-            if (v <= 10) then
-                if (v != 0) then
-                    log "SUCCESS: 7. All Comparison Operators (>, <, >=, <=, !=, ==)";
+assertEqual(10 + 5, 15, "Addition");
+assertEqual(10 - 5, 5, "Subtraction");
+assertEqual(4 * 5, 20, "Multiplication");
+assertEqual(20 / 4, 5, "Division");
 
-string testStr = "ETSL";
-if (testStr == "ETSL") then 
-    log "SUCCESS: 8. String Literals and Equality";
+int prec = (2 + 3) * 4;
+assertEqual(prec, 20, "Precedence");
 
 // ==========================================
-// 9-10. AVANCERET SCOPING
+// 2. COMPARISONS
+// ==========================================
+assertTrue(5 > 2, ">");
+assertTrue(2 < 5, "<");
+assertTrue(5 >= 5, ">=");
+assertTrue(5 <= 5, "<=");
+assertTrue(5 == 5, "==");
+assertTrue(5 != 3, "!=");
+
+// ==========================================
+// 3. STRINGS
+// ==========================================
+string s = "ETSL";
+assertTrue(s == "ETSL", "String equality");
+
+// ==========================================
+// 4. FUNCTIONS (PASS-BY-VALUE)
+// ==========================================
+function square(int x) {
+return x * x;
+}
+assertEqual(square(6), 36, "Function return");
+
+// Ensure input not modified
+int val = 10;
+function testVal(int x) {
+int y = x + 5;
+return y;
+}
+testVal(val);
+assertEqual(val, 10, "Pass-by-value immutability");
+
+// ==========================================
+// 5. SCOPING & SHADOWING
 // ==========================================
 int x = 10;
-function deepScope(int x) {
-    if (x == 5) then {
-        int x = 1; 
-        if (x == 1) then 
-            log "SUCCESS: 9. Deep Shadowing (Level 2)";
-    }
-}
-deepScope(5);
 
-// TEST 10: Rettet if-logik uden 'true' keyword og med parenteser for sikkerhed
+function shadowTest(int x) {
+int y = x + 5;
+return y;
+}
+assertEqual(shadowTest(5), 10, "Parameter shadowing");
+assertEqual(x, 10, "Outer scope unchanged");
+
+// Block scope
 int outer = 100;
 if (outer == 100) then {
-    int outer = 200; 
+int outer = 200;
 }
-if (outer == 100) then {
-    log "SUCCESS: 10. Block Scope Isolation";
-}
+assertEqual(outer, 100, "Block scope isolation");
 
 // ==========================================
-// 11-12. REKURSION & EMPTY FUNCTIONS
+// 6. RECURSION
 // ==========================================
-function doNothing() {
-    int dummy = 0;
+function fact(int n) {
+if (n <= 1) then {
+return 1;
 }
-doNothing();
-log "SUCCESS: 11. Empty Function Execution";
-
-// TEST 12: Rekursion med simpel if-else erstatning
-function factorial(int n) {
-    if (n <= 1) then {
-        return 1;
-    }
-    int nextN = n - 1;
-    return n * factorial(nextN);
+return n * fact(n - 1);
 }
+assertEqual(fact(5), 120, "Recursion");
 
-int factResult = factorial(5);
-if (factResult == 120) then {
-    log "SUCCESS: 12. Recursive Function Calls (Stack Integrity)";
-}
+// ==========================================
+// 7. STRING CONCAT
+// ==========================================
+string a = "Hello ";
+string b = "World";
+string c = a + b;
+assertTrue(c == "Hello World", "String concat");
 
-log "--- ALL POSITIVE TESTS FINISHED ---";
+// ==========================================
+// SUMMARY
+// ==========================================
+log "--- RESULTS ---";
+log "Passed: " + passed;
+log "Failed: " + failed;
+
+// ==========================================
+// 8. NEGATIVE TESTS (RUN SEPARATELY)
+// ==========================================
+
+// --- IMMUTABILITY (should crash)
+// int a = 5;
+// a = 10;
+
+// --- REDECLARATION (should crash)
+// int b = 5;
+// int b = 10;
+
+// --- UNDEFINED VARIABLE (should crash)
+// log z;
+
+// --- DIVISION BY ZERO (should crash)
+// int d = 5 / 0;
