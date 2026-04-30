@@ -1,0 +1,100 @@
+log "--- STARTING ROBUST UNIT TESTS ---";
+
+// ==========================================
+// 1-4. BASIS MATEMATIK & GLOBAL SCOPE
+// ==========================================
+int a = 35;
+int b = 30;
+if (a + b == 65) then 
+    log "SUCCESS: 1. Addition and Global Scoping";
+
+if (a - b == 5) then 
+    log "SUCCESS: 2. Subtraction";
+
+int mathResult = (10 + 2) * 3;
+if (mathResult == 36) then 
+    log "SUCCESS: 3. Multiplication and Parentheses Precedence";
+
+int div1 = 100;
+int div2 = 4;
+if (div1 / div2 == 25) then 
+    log "SUCCESS: 4. Division";
+
+// ==========================================
+// 5-6. FUNKTIONER & PARAMETRE
+// ==========================================
+function checkParams(int x, int y) {
+    if (x * y == 200) then 
+        log "SUCCESS: 5. Function Dispatch and Parameter Mapping";
+}
+checkParams(20, 10);
+
+int scopeVar = 1;
+function testScope() {
+    int scopeVar = 99; 
+}
+testScope();
+if (scopeVar == 1) then 
+    log "SUCCESS: 6. Local Scope Isolation (Shadowing)";
+
+// ==========================================
+// 7-8. OPERATORER & STRINGS
+// ==========================================
+int v = 10;
+if (v > 5) then
+    if (v < 15) then
+        if (v >= 10) then
+            if (v <= 10) then
+                if (v != 0) then
+                    log "SUCCESS: 7. All Comparison Operators (>, <, >=, <=, !=, ==)";
+
+string testStr = "ETSL";
+if (testStr == "ETSL") then 
+    log "SUCCESS: 8. String Literals and Equality";
+
+// ==========================================
+// 9-10. AVANCERET SCOPING
+// ==========================================
+int x = 10;
+function deepScope(int x) {
+    if (x == 5) then {
+        int x = 1; 
+        if (x == 1) then 
+            log "SUCCESS: 9. Deep Shadowing (Level 2)";
+    }
+}
+deepScope(5);
+
+// TEST 10: Rettet if-logik uden 'true' keyword og med parenteser for sikkerhed
+int outer = 100;
+if (outer == 100) then {
+    int outer = 200; 
+}
+if (outer == 100) then {
+    log "SUCCESS: 10. Block Scope Isolation";
+}
+
+// ==========================================
+// 11-12. REKURSION & EMPTY FUNCTIONS
+// ==========================================
+function doNothing() {
+    int dummy = 0;
+}
+doNothing();
+log "SUCCESS: 11. Empty Function Execution";
+
+// TEST 12: Rekursion med simpel if-else erstatning
+function factorial(int n) {
+    if (n <= 1) then {
+        return 1;
+    }
+    int nextN = n - 1;
+    return n * factorial(nextN);
+}
+
+int factResult = factorial(5);
+if (factResult == 120) then {
+    log "SUCCESS: 12. Recursive Function Calls (Stack Integrity)";
+}
+
+log "--- ALL POSITIVE TESTS FINISHED ---";

@@ -44,6 +44,18 @@ public interface IETSLVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitDeclaration([NotNull] ETSLParser.DeclarationContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="ETSLParser.varDecl"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitVarDecl([NotNull] ETSLParser.VarDeclContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="ETSLParser.funcDecl"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFuncDecl([NotNull] ETSLParser.FuncDeclContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="ETSLParser.eventDecl"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -74,15 +86,91 @@ public interface IETSLVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitType([NotNull] ETSLParser.TypeContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="ETSLParser.block"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBlock([NotNull] ETSLParser.BlockContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="ETSLParser.action"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitAction([NotNull] ETSLParser.ActionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ETSLParser.expression"/>.
+	/// Visit a parse tree produced by the <c>StringExpr</c>
+	/// labeled alternative in <see cref="ETSLParser.expression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitExpression([NotNull] ETSLParser.ExpressionContext context);
+	Result VisitStringExpr([NotNull] ETSLParser.StringExprContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>FloatExpr</c>
+	/// labeled alternative in <see cref="ETSLParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFloatExpr([NotNull] ETSLParser.FloatExprContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>MulDivExpr</c>
+	/// labeled alternative in <see cref="ETSLParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitMulDivExpr([NotNull] ETSLParser.MulDivExprContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>IdExpr</c>
+	/// labeled alternative in <see cref="ETSLParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIdExpr([NotNull] ETSLParser.IdExprContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>CompareExpr</c>
+	/// labeled alternative in <see cref="ETSLParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitCompareExpr([NotNull] ETSLParser.CompareExprContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>CallExpr</c>
+	/// labeled alternative in <see cref="ETSLParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitCallExpr([NotNull] ETSLParser.CallExprContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>IntExpr</c>
+	/// labeled alternative in <see cref="ETSLParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIntExpr([NotNull] ETSLParser.IntExprContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>ParenExpr</c>
+	/// labeled alternative in <see cref="ETSLParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitParenExpr([NotNull] ETSLParser.ParenExprContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>AddSubExpr</c>
+	/// labeled alternative in <see cref="ETSLParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAddSubExpr([NotNull] ETSLParser.AddSubExprContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>BooleanExpr</c>
+	/// labeled alternative in <see cref="ETSLParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBooleanExpr([NotNull] ETSLParser.BooleanExprContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="ETSLParser.argList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitArgList([NotNull] ETSLParser.ArgListContext context);
 }
